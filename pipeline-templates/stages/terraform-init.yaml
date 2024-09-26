@@ -1,0 +1,31 @@
+parameters:
+  - name: resourceGroup
+    type: string
+  - name: storageAccount
+    type: string
+  - name: containerName
+    type: string
+  - name: stateFileName
+    type: string
+  - name: azureServiceConnection
+    type: string
+
+steps:
+  # Step to Install Terraform (if not already installed)
+  - task: HashiCorpTerraformInstaller@0
+    displayName: 'Install Terraform'
+    inputs:
+      terraformVersion: 'latest'
+
+  # Step to Initialize Terraform with Azure Blob Storage backend
+  - task: TerraformTaskV2@2
+    displayName: 'Terraform Init'
+    inputs:
+      command: 'init'
+      backendServiceArm: '${{ parameters.azureServiceConnection }}'  # Service connection for Azure resources
+      backendType: 'azurerm'
+      additionalArgs: |
+        -backend-config="resource_group_name=${{ parameters.resourceGroup }}" \
+        -backend-config="storage_account_name=${{ parameters.storageAccount }}" \
+        -backend-config="container_name=${{ parameters.containerName }}" \
+        -backend-config="key=${{ parameters.stateFileName }}"

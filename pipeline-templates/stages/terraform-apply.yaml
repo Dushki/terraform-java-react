@@ -1,0 +1,16 @@
+parameters:
+  - name: azureServiceConnection
+    type: string
+  - name: environmentServiceName
+    type: string
+  - name: commandOptions
+    type: string
+
+steps:
+  # Step to Apply Terraform Changes
+  - task: TerraformTaskV2@2
+    displayName: 'Terraform Apply'
+    inputs:
+      command: 'apply'
+      environmentServiceNameAzureRM: '${{ parameters.azureServiceConnection }}'
+      additionalArgs: '-auto-approve'

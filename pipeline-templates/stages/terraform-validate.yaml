@@ -1,0 +1,23 @@
+parameters:
+  - name: azureServiceConnection
+    type: string
+  - name: commandOptions
+    type: string
+  - name: environmentServiceName
+    type: string
+
+steps:
+  # Step to Validate Terraform Configuration
+  - task: TerraformTaskV2@2
+    displayName: 'Terraform Validate'
+    inputs:
+      command: 'validate'
+      environmentServiceNameAzureRM: '${{ parameters.environmentServiceName }}'
+      
+  # Step to Plan Terraform Changes
+  - task: TerraformTaskV2@2
+    displayName: 'Terraform Plan'
+    inputs:
+      command: 'plan'
+      environmentServiceNameAzureRM: '${{ parameters.azureServiceConnection }}'
+      
