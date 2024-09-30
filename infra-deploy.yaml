@@ -16,7 +16,7 @@ stages:
           - checkout: self
 
           # Reference the Terraform Init Template
-          - template: terraform-init-template.yml
+          - template: pipeline-templates/stages/terraform-init.yaml
             parameters:
               resourceGroup:  var.backendRG"            
               storageAccount: var.backenstorage       
@@ -25,12 +25,12 @@ stages:
               azureServiceConnection: 'YourAzureServiceConnection'
 
           # Reference the Terraform Validate and Plan Template
-          - template: terraform-plan-template.yml
+          - template: pipeline-templates/stages/terraform-validate.yaml
             parameters:
               azureServiceConnection: 'YourAzureServiceConnection'
 
           # Reference the Terraform Apply Template
-          - template: terraform-apply-template.yml
+          - template: pipeline-templates/stages/terraform-apply.yaml
             parameters:
               azureServiceConnection: 'YourAzureServiceConnection'
 
